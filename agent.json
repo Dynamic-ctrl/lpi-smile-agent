@@ -1,0 +1,19 @@
+{
+  "protocol": "A2A/1.0",
+  "identity": {
+    "name": "SMILE Implementation Agent",
+    "developer": "Aditi Mehta",
+    "version": "1.0.0",
+    "description": "An agent that queries the LPI methodology tools to generate cited implementation steps."
+  },
+  "capabilities": {
+    "tools": [
+      {
+        "name": "smile_planner",
+        "description": "Generates digital twin plans based on MCP tool context."
+      }
+    ],
+    "mcp_compatible": true,
+    "context_window": 8192
+  }
+}
