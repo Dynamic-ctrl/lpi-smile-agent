@@ -5,7 +5,9 @@ import re
 import requests
 
 # Change this path to point to your dist/src/index.js file
-LPI_SERVER_PATH = "/Users/MacA/Documents/internship 26/lpi/lpi-developer-kit"
+LPI_SERVER_PATH = os.environ.get(
+    "LPI_SERVER_PATH","/Users/MacA/Documents/internship 26/lpi/lpi-developer-kit"
+)
 OLLAMA_URL = "http://localhost:11434/api/generate"
 
 def sanitize_input(text):
