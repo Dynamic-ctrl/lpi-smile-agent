@@ -1,19 +1,62 @@
 {
-  "protocol": "A2A/1.0",
-  "identity": {
-    "name": "SMILE Implementation Agent",
-    "developer": "Aditi Mehta",
-    "version": "1.0.0",
-    "description": "An agent that queries the LPI methodology tools to generate cited implementation steps."
+  "schema_version": "0.1",
+  "name": "SMILE Gap Analyzer (The Critic Agent)",
+  "description": "An architectural auditing agent acting as a Senior Systems Reviewer. It ingests a user's digital twin concept, sanitizes inputs, queries 4 LPI tools, and audits the concept against the SMILE framework to generate a 'Missing Reality Report' that highlights overlooked parameters and system blind spots.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Aditi Mehta"
   },
   "capabilities": {
-    "tools": [
-      {
-        "name": "smile_planner",
-        "description": "Generates digital twin plans based on MCP tool context."
-      }
-    ],
-    "mcp_compatible": true,
-    "context_window": 8192
+    "accepts": "Natural language description of a proposed digital twin architecture",
+    "produces": "A 'Missing Reality Report' detailing architectural flaws, forgotten variables, and framework deviations",
+    "explains": "Forces the LLM to strictly cite the LPI context used for every single architectural critique using [Tool: name] syntax."
+  },
+  "skills": [
+    {
+      "id": "architecture_audit",
+      "name": "System Architecture Auditing",
+      "description": "Cross-references proposed user concepts against established LPI case studies to find missing system components.",
+      "input_modes": ["text"],
+      "output_modes": ["text"]
+    },
+    {
+      "id": "security_sanitization",
+      "name": "Prompt Injection Mitigation",
+      "description": "Applies Regex-based sanitization to incoming user concepts before they interact with the LLM or MCP server.",
+      "input_modes": ["text"],
+      "output_modes": ["text"]
+    },
+    {
+      "id": "stateless_ipc",
+      "name": "Stateless Subprocess Bridge",
+      "description": "Manages MCP tool execution using stateless subprocess.communicate() to prevent BrokenPipeErrors during stream handling.",
+      "input_modes": ["json-rpc"],
+      "output_modes": ["json"]
+    }
+  ],
+  "lpi_tools_used": [
+    "smile_overview",
+    "query_knowledge",
+    "get_case_studies",
+    "smile_phase_detail"
+  ],
+  "protocols": {
+    "mcp": {
+      "transport": "stdio (stateless)"
+    },
+    "a2a": {
+      "agent_card": "agent.json"
+    }
+  },
+  "requirements": {
+    "runtime": "Python 3.10+",
+    "node": "18+",
+    "ollama": "local model",
+    "external_packages": "none (stdlib only)"
+  },
+  "explainability": {
+    "method": "strict_inline_xai",
+    "description": "The system prompt explicitly restricts the LLM from hallucinating critiques. Every identified gap in the user's logic must be appended with a direct inline citation to the LPI tool that provided the framework rule.",
+    "provenance_format": "[Tool: tool_name]"
   }
 }

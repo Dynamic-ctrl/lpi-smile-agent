@@ -1,31 +1,58 @@
-# LPI SMILE Agent
+# SMILE Gap Analyzer (The Critic Agent)
 
-A lightweight, custom Python agent built from scratch to interface with the Life Programmable Interface (LPI) via the Model Context Protocol (MCP). 
+**LPI Level 3: Agent Builder Track Submission** **Author:** Aditi Mehta  
+**GitHub:** [Dynamic-ctrl](https://github.com/Dynamic-ctrl)
 
-Instead of relying on heavy AI frameworks like LangChain, this agent uses standard Python libraries to establish a direct `stdio` bridge with the local Node MCP server. It routes user input through the tools, extracts the JSON data, and pipes it into a local LLM to synthesize actionable project plans.
+Most agents are built to answer questions or generate templates. This agent is built to **audit assumptions**. The **SMILE Gap Analyzer** acts as an automated Senior Systems Architect. It ingests a digital twin concept, cross-references it against the official SMILE methodology and industry case studies via the LPI (Life Programmable Interface), and identifies the physical, human, and environmental blind spots that engineers often overlook.
 
-## ✨ Key Features
+---
 
-* **Zero-Framework Architecture:** Built with raw Python to handle inter-process communication (IPC) and JSON-RPC protocols directly without bloatware.
-* **Fully Local & Private:** Uses standard local streams for communication and a local Ollama instance (`qwen2.5:1.5b`) for inference. Zero network latency and zero cloud APIs required.
-* **Explainable AI (XAI):** Engineered with a strict system prompt that turns the LLM into a "citation engine." The model is forced to explicitly tag which MCP tool (`smile_overview` or `get_insights`) provided the data, preventing black-box answers.
-* **Built-in Security:** Implements a regex-based sanitization layer to scrub terminal input, preventing prompt and terminal injection attacks before the data touches the LLM.
-* **A2A Discoverability:** Includes a fully configured `agent.json` manifest card to support Agent-to-Agent discovery.
+##  Engineered Features (Architecture)
 
-## ⚙️ Setup Instructions
+* **Auditor Persona:** Instead of a generic chat interface, this agent follows a strict architectural review logic. It outputs a **"Missing Reality Report"** focused on Human Factors, Edge Cases, and Environmental Variables.
+* **Stateless IPC Bridge:** Replaces the fragile, persistent `stdio` stream with a resilient, stateless `subprocess.communicate()` bridge. This architecture explicitly solves the `BrokenPipeError` commonly found in MCP implementations by cleanly opening and closing the Node process for each tool call.
+* **Strict XAI (Explainable AI):** Uses "Few-Shot Template Forcing" to ensure the LLM never hallucinates tool names. Every architectural critique is explicitly front-loaded with a mandatory citation (e.g., `[Tool: query_knowledge]`) so that all reasoning is traceable.
+* **Security Sanitization Layer:** Implements a Regex-based sanitization bridge that scrubs user input before it reaches the MCP server or the LLM, mitigating prompt injection and special-character terminal exploits.
+* **A2A Manifest:** Includes a schema-compliant `agent.json` (A2A discovery card) that defines the agent's skills, protocols, and explainability methods for machine-to-machine discovery.
 
-1. **Clone this repository:**
-   ```bash
-   git clone [https://github.com/Dynamic-ctrl/lpi-smile-agent.git](https://github.com/Dynamic-ctrl/lpi-smile-agent.git)
-   cd lpi-smile-agent
-   ```
-2. **Install the required packages:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Ensure prerequisites are running:** Make sure you have Ollama running locally with the `qwen2.5:1.5b` model pulled, and the LPI sandbox built.
-4. **Configure your environment:** Update the `LPI_SERVER_PATH` inside `agent.py` to point to your local LPI sandbox build directory.
-5. **Run the script:**
-   ```bash
-   python agent.py "I want to build a smart campus"
-   ```
+---
+
+## Technical Stack
+
+* **Core:** Python 3.10+ (Zero-framework, `stdlib` only)
+* **Protocol:** Model Context Protocol (MCP) via JSON-RPC
+* **Inference:** Ollama (`qwen2.5:1.5b` or equivalent)
+* **Knowledge Base:** Life Programmable Interface (LPI) Sandbox
+
+---
+
+## Installation & Setup
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/Dynamic-ctrl/lpi-smile-agent
+    cd lpi-smile-agent
+    ```
+2.  **Verify LPI Sandbox:**
+    Ensure your `lpi-developer-kit` is built:
+    ```bash
+    cd ../lpi-developer-kit
+    npm run build
+    ```
+3.  **Configure Paths:**
+    Update the `LPI_SERVER_PATH` inside `agent.py` to point to your local `dist/src/index.js` file.
+4.  **Start Inference:**
+    Ensure Ollama is running and the model is pulled:
+    ```bash
+    ollama serve
+    ollama pull qwen2.5:1.5b
+    ```
+
+---
+
+## Usage
+
+Run the agent by describing a digital twin concept as a command-line argument:
+
+```bash
+python3 agent.py "I want to build a digital twin of an offshore wind farm to monitor turbine integrity.
