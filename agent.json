@@ -2,7 +2,7 @@
   "schema_version": "0.1",
   "name": "SMILE Gap Analyzer (The Critic Agent)",
   "description": "An architectural auditing agent acting as a Senior Systems Reviewer. It ingests a user's digital twin concept, sanitizes inputs, queries 4 LPI tools, and audits the concept against the SMILE framework to generate a 'Missing Reality Report' that highlights overlooked parameters and system blind spots.",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "author": {
     "name": "Aditi Mehta"
   },
